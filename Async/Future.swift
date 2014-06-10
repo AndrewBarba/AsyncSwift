@@ -8,9 +8,9 @@
 
 import Foundation
 
-typealias SuccessCallback      = (AsyncObject?) -> ()
-typealias ErrorCallback        = (AsyncError) -> ()
-typealias IteratorCallback     = (AsyncObject, (AsyncError?) -> ()) -> ()
+typealias SuccessCallback  = (AsyncObject?) -> ()
+typealias ErrorCallback    = (AsyncError) -> ()
+typealias IteratorCallback = (AsyncObject, (AsyncError?) -> ()) -> ()
 
 enum FutureState: Int {
     case Waiting, Operating, Completed

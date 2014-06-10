@@ -84,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				B892F8761946AA18009F27C9 /* Async.h */,
-				B8C9902C194759360035F4D6 /* Async.playground */,
 				B892F88D1946AA2E009F27C9 /* Source */,
 				B892F8741946AA18009F27C9 /* Supporting Files */,
 			);
@@ -94,6 +93,7 @@
 		B892F8741946AA18009F27C9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B8C9902C194759360035F4D6 /* Async.playground */,
 				B892F8751946AA18009F27C9 /* Info.plist */,
 			);
 			name = "Supporting Files";
