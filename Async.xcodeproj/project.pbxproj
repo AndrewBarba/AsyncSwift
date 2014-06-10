@@ -10,6 +10,9 @@
 		B892F8771946AA18009F27C9 /* Async.h in Headers */ = {isa = PBXBuildFile; fileRef = B892F8761946AA18009F27C9 /* Async.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B892F87D1946AA18009F27C9 /* Async.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B892F8711946AA18009F27C9 /* Async.framework */; };
 		B892F8841946AA18009F27C9 /* AsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B892F8831946AA18009F27C9 /* AsyncTests.swift */; };
+		B892F88F1946AA3D009F27C9 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = B892F88E1946AA3D009F27C9 /* Async.swift */; };
+		B892F8911946AA6A009F27C9 /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = B892F8901946AA6A009F27C9 /* Future.swift */; };
+		B8C99029194753E10035F4D6 /* Each.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C99028194753E10035F4D6 /* Each.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +32,10 @@
 		B892F87C1946AA18009F27C9 /* AsyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B892F8821946AA18009F27C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B892F8831946AA18009F27C9 /* AsyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncTests.swift; sourceTree = "<group>"; };
+		B892F88E1946AA3D009F27C9 /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
+		B892F8901946AA6A009F27C9 /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
+		B8C99028194753E10035F4D6 /* Each.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Each.swift; sourceTree = "<group>"; };
+		B8C9902C194759360035F4D6 /* Async.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Async.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				B892F8761946AA18009F27C9 /* Async.h */,
+				B8C9902C194759360035F4D6 /* Async.playground */,
+				B892F88D1946AA2E009F27C9 /* Source */,
 				B892F8741946AA18009F27C9 /* Supporting Files */,
 			);
 			path = Async;
@@ -100,6 +109,24 @@
 				B892F8821946AA18009F27C9 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B892F88D1946AA2E009F27C9 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				B892F88E1946AA3D009F27C9 /* Async.swift */,
+				B892F8901946AA6A009F27C9 /* Future.swift */,
+				B8C99027194753D50035F4D6 /* Collection */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		B8C99027194753D50035F4D6 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				B8C99028194753E10035F4D6 /* Each.swift */,
+			);
+			name = Collection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +237,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8C99029194753E10035F4D6 /* Each.swift in Sources */,
+				B892F8911946AA6A009F27C9 /* Future.swift in Sources */,
+				B892F88F1946AA3D009F27C9 /* Async.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +350,7 @@
 		B892F8881946AA18009F27C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -329,12 +360,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		B892F8891946AA18009F27C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -398,6 +431,7 @@
 				B892F8891946AA18009F27C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B892F88A1946AA18009F27C9 /* Build configuration list for PBXNativeTarget "AsyncTests" */ = {
 			isa = XCConfigurationList;
@@ -406,6 +440,7 @@
 				B892F88C1946AA18009F27C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

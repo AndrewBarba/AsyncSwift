@@ -7,29 +7,41 @@
 //
 
 import XCTest
+import Async
 
 class AsyncTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testEach() {
+        
+        var expectNoErrors = expectationWithDescription("no errors")
+        Async
+            .each(Array(0..10)) { $1(nil) }
+            .success { results in expectNoErrors.fulfill() }
+            .error { XCTAssertNil($0) }
+        
+        var expectErrors = expectationWithDescription("expect errors")
+        Async
+            .each(Array(0..10)) { $1(NSError()) }
+            .success { XCTAssertNil($0)  }
+            .error { err in expectErrors.fulfill() }
+        
+        waitForExpectationsWithTimeout(1.0, handler: nil)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testEachSeries() {
+        
+        var expectNoErrors = expectationWithDescription("no errors")
+        Async
+            .eachSeries(Array(0..10)) { $1(nil) }
+            .success { results in expectNoErrors.fulfill() }
+            .error { XCTAssertNil($0) }
+        
+        var expectErrors = expectationWithDescription("expect errors")
+        Async
+            .eachSeries(Array(0..10)) { $1(NSError()) }
+            .success { XCTAssertNil($0)  }
+            .error { err in expectErrors.fulfill() }
+        
+        waitForExpectationsWithTimeout(1.0, handler: nil)
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
