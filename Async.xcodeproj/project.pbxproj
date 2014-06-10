@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B834EB8819475B64008815B9 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = B834EB8719475B64008815B9 /* README.md */; };
+		B834EB8A19475BDB008815B9 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = B834EB8919475BDB008815B9 /* Map.swift */; };
 		B892F8771946AA18009F27C9 /* Async.h in Headers */ = {isa = PBXBuildFile; fileRef = B892F8761946AA18009F27C9 /* Async.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B892F87D1946AA18009F27C9 /* Async.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B892F8711946AA18009F27C9 /* Async.framework */; };
 		B892F8841946AA18009F27C9 /* AsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B892F8831946AA18009F27C9 /* AsyncTests.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		B834EB8719475B64008815B9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		B834EB8919475BDB008815B9 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		B892F8711946AA18009F27C9 /* Async.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Async.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B892F8751946AA18009F27C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B892F8761946AA18009F27C9 /* Async.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Async.h; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				B8C99028194753E10035F4D6 /* Each.swift */,
+				B834EB8919475BDB008815B9 /* Map.swift */,
 			);
 			name = Collection;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B834EB8A19475BDB008815B9 /* Map.swift in Sources */,
 				B8C99029194753E10035F4D6 /* Each.swift in Sources */,
 				B892F8911946AA6A009F27C9 /* Future.swift in Sources */,
 				B834EB8819475B64008815B9 /* README.md in Sources */,

@@ -44,4 +44,11 @@ class Async {
         future.operate()
         return future
     }
+    
+    // https://github.com/caolan/async#map
+    class func map(arr: AsyncObject[], iterator: IteratorCallback) -> Future {
+        var future = Map(arr: arr, iterator: iterator)
+        future.operate()
+        return future
+    }
 }
