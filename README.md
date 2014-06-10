@@ -1,4 +1,4 @@
-Async.sgwift
+Async.swift
 ======
 
 https://github.com/caolan/async
