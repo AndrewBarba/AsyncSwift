@@ -11,10 +11,10 @@ Async
         println(name)
         done(nil)
     }
-    .success { 
+    .success { results in
         // handle success
     }
-    .error {
+    .error { error in
         // handle error
     }
 ```
