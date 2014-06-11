@@ -7,7 +7,7 @@ https://github.com/caolan/async
 
 ```
 Async
-    .each([ "Andrew", "Steve", "Gianna" ]) { name, done in 
+    .each([ "Andrew", "Zach" ]) { name, done in 
         println(name)
         done(nil)
     }

@@ -20,6 +20,8 @@ class MapLimit<T>: CollectionFuture<T, (T, NSError?), (T[])> {
     override func operate() {
         super.operate()
         
+        var index = min(limit, arr.count)
+        
         if arr.count == 0 {
             return finish([], error: nil)
         }
