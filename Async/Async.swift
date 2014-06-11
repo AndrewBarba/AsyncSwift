@@ -8,47 +8,43 @@
 
 import Foundation
 
-typealias AsyncObject = AnyObject
-typealias AsyncError = NSError
-
 class Async {
     
-    // dispatch block on main thread
-    class func dispatchMain(block: () -> ()) -> NSOperation {
-        var queue = NSOperationQueue()
+    // dispatch block on queue
+    class func dispatchQueue(queue: NSOperationQueue, block: () -> ()) -> NSOperation {
         var op = NSBlockOperation()
         op.addExecutionBlock(block)
         queue.addOperation(op)
         return op
+    }
+    
+    // dispatch block on main thread
+    class func dispatchMain(block: () -> ()) -> NSOperation {
+        return self.dispatchQueue(NSOperationQueue(), block)
     }
     
     // dispatch block on background thread
     class func dispatchBackground(block: () -> ()) -> NSOperation {
-        var queue = NSOperationQueue.mainQueue()
-        var op = NSBlockOperation()
-        op.addExecutionBlock(block)
-        queue.addOperation(op)
-        return op
+        return self.dispatchQueue(NSOperationQueue.mainQueue(), block)
     }
     
     // https://github.com/caolan/async#each
-    class func each(arr: AsyncObject[], iterator: IteratorCallback) -> Future {
-        var future = Each(arr: arr, iterator: iterator)
-        future.operate()
-        return future
+    class func each<T>(items: T[], iterator: (T, (NSError?) -> ()) -> ()) -> Each<T> {
+        return Each(arr: items, iterator: iterator)
     }
     
     // https://github.com/caolan/async#eachSeries
-    class func eachSeries(arr: AsyncObject[], iterator: IteratorCallback) -> Future {
-        var future = EachSeries(arr: arr, iterator: iterator)
-        future.operate()
-        return future
+    class func eachSeries<T>(items: T[], iterator: (T, (NSError?) -> ()) -> ()) -> EachSeries<T> {
+        return EachSeries(arr: items, iterator: iterator)
     }
     
     // https://github.com/caolan/async#map
-    class func map(arr: AsyncObject[], iterator: IteratorCallback) -> Future {
-        var future = Map(arr: arr, iterator: iterator)
-        future.operate()
-        return future
+    class func map<T>(items: T[], iterator: (T, (T, NSError?) -> ()) -> ()) -> Map<T> {
+        return Map(arr: items, iterator: iterator)
+    }
+    
+    // https://github.com/caolan/async#mapSeries
+    class func mapSeries<T>(items: T[], iterator: (T, (T, NSError?) -> ()) -> ()) -> MapSeries<T> {
+        return MapSeries(arr: items, iterator: iterator)
     }
 }

@@ -8,23 +8,30 @@
 
 import Foundation
 
-class Each: CollectionFuture {
+class Each<T>: CollectionFuture<T, (NSError?), ()> {
+    
+    init(arr: T[], iterator: Iterator) {
+        super.init(arr: arr, iterator: iterator)
+    }
     
     override func operate() {
-        if (arr.count == 0) {
+        super.operate()
+        
+        if arr.count == 0 {
             return finish(nil, error: nil)
         }
         
         var remaining = arr.count
-        for a: AnyObject in arr {
+        
+        for a in arr {
             Async.dispatchBackground {[self]
-                self.iterator(a) { error in
-                    if error {
-                        self.finish(nil, error: error)
+                self.iterator(a) { err in
+                    if err {
+                        self.finish(nil, error: err)
                     } else {
                         remaining -= 1
                         if remaining == 0 {
-                            self.finish(nil, error: nil)
+                            self.finish((), error: nil)
                         }
                     }
                 }
@@ -33,18 +40,24 @@ class Each: CollectionFuture {
     }
 }
 
-class EachSeries: CollectionFuture {
+class EachSeries<T>: CollectionFuture<T, (NSError?), ()> {
+    
+    init(arr: T[], iterator: Iterator) {
+        super.init(arr: arr, iterator: iterator)
+    }
     
     override func operate() {
-        if (arr.count == 0) {
-            return finish(nil, error: nil)
+        super.operate()
+        
+        if arr.count == 0 {
+            return self.finish((), error: nil)
         }
         
-        let i: AsyncObject = arr[0]
+        var a = arr[0]
         Async.dispatchBackground {[self]
-            self.iterator(i) { error in
-                if error {
-                    self.finish(nil, error: error)
+            self.iterator(a) { err in
+                if err {
+                    self.finish(nil, error: err)
                 } else {
                     self.arr[0..1] = []
                     self.operate()
@@ -53,4 +66,3 @@ class EachSeries: CollectionFuture {
         }
     }
 }
-

@@ -8,93 +8,76 @@
 
 import Foundation
 
-typealias SuccessCallback  = (AsyncObject?) -> ()
-typealias ErrorCallback    = (AsyncError) -> ()
-typealias IteratorCallback = (AsyncObject, (AsyncError?) -> ()) -> ()
-
-enum FutureState: Int {
-    case Waiting, Operating, Completed
+enum FutureState {
+    case Pending, Operating, Complete
 }
 
-protocol Future {
+class Future<SuccessType, ErrorType> {
     
-    // instance vars
-    var successCallbacks: SuccessCallback[] { get }
-    var errorCallbacks: ErrorCallback[] { get }
-    var state: FutureState { get }
-    var error: AsyncError? { get }
-    var results: AsyncObject? { get }
+    var state = FutureState.Pending
     
-    // operate
-    func operate() -> ()
+    // results
+    var _result: SuccessType?
+    var _error: ErrorType?
     
-    // on success
-    func success(onSuccess: SuccessCallback) -> Future
+    // callbacks
+    var _onSuccess: (SuccessType -> ())[] = []
+    var _onError: (ErrorType -> ())[] = []
     
-    // on error
-    func error(onError: ErrorCallback) -> Future
+    init() {
+        // override
+    }
     
-    // finish
-    func finish(results: AsyncObject?, error: AsyncError?)
-}
-
-class CollectionFuture: Future {
+    func success(onSuccess: SuccessType -> ()) -> Future<SuccessType, ErrorType> {
+        if state == .Complete {
+            if let res = _result {
+                onSuccess(res)
+            }
+        } else {
+            _onSuccess += onSuccess
+        }
+        return self
+    }
     
-    // protocol vars
-    var successCallbacks: SuccessCallback[] = []
-    var errorCallbacks: ErrorCallback[] = []
-    var state: FutureState = .Waiting
-    var error: AsyncError? = nil
-    var results: AsyncObject? = nil
+    func error(onError: ErrorType -> ()) -> Future<SuccessType, ErrorType> {
+        if state == .Complete {
+            if let err = _error {
+                onError(err)
+            }
+        } else {
+            _onError += onError
+        }
+        return self
+    }
     
-    var arr: AsyncObject[]
-    let iterator: IteratorCallback
-    
-    init(arr: AsyncObject[], iterator: IteratorCallback) {
-        self.arr = arr
-        self.iterator = iterator
+    func finish(result: SuccessType?, error: ErrorType?) {
+        _result = result
+        _error = error
+        _notify()
+        state = .Complete
+        _clean()
     }
     
     func operate() {
         state = .Operating
     }
     
-    func success(onSuccess: SuccessCallback) -> Future {
-        if state == .Completed {
-            if !error {
-                onSuccess(results)
+    func _notify() {
+        if let err = _error {
+            for block in _onError {
+                block(err)
             }
-        } else {
-            successCallbacks += onSuccess
+        } else if let res = _result {
+            for block in _onSuccess {
+                block(res)
+            }
         }
-        return self
     }
     
-    func error(onError: ErrorCallback) -> Future {
-        if state == .Completed {
-            if let err = error {
-                onError(err)
-            }
-        } else {
-            errorCallbacks += onError
-        }
-        return self
-    }
-    
-    func finish(results: AsyncObject?, error: AsyncError?) {
-        if let err = error {
-            for callback in errorCallbacks {
-                callback(err)
-            }
-        } else {
-            for callback in successCallbacks {
-                callback(results)
-            }
-        }
-        
-        // reset
-        state = .Completed
-        successCallbacks = []
-        errorCallbacks = []
+    func _clean() {
+        _onSuccess = []
+        _onError = []
+        _result = nil
+        _error = nil
     }
 }
