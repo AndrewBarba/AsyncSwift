@@ -8,31 +8,36 @@
 
 import Foundation
 
-class Each<T>: CollectionFuture<T, (NSError?), ()> {
+class EachLimit<T>: CollectionFuture<T, (NSError?), ()> {
     
-    init(arr: T[], iterator: Iterator) {
+    var limit: Int
+    
+    init(limit: Int, arr: T[], iterator: Iterator) {
+        self.limit = limit
         super.init(arr: arr, iterator: iterator)
     }
     
     override func operate() {
-        super.operate()
         
-        if arr.count == 0 {
-            return finish(nil, error: nil)
+        let index = min(limit, arr.count)
+        var _arr = arr[0..index]
+        
+        if _arr.count == 0 {
+            return self.finish((), error: nil)
         }
         
-        var remaining = arr.count
+        var remaining = _arr.count
         
-        for a in arr {
+        for a in _arr {
             Async.dispatchBackground {[self]
                 self.iterator(a) { err in
+                    remaining -= 1
+                    
                     if err {
                         self.finish(nil, error: err)
-                    } else {
-                        remaining -= 1
-                        if remaining == 0 {
-                            self.finish((), error: nil)
-                        }
+                    } else if remaining == 0 {
+                        self.arr[0..index] = []
+                        self.operate()
                     }
                 }
             }
@@ -40,29 +45,14 @@ class Each<T>: CollectionFuture<T, (NSError?), ()> {
     }
 }
 
-class EachSeries<T>: CollectionFuture<T, (NSError?), ()> {
-    
+class Each<T>: EachLimit<T> {
     init(arr: T[], iterator: Iterator) {
-        super.init(arr: arr, iterator: iterator)
+        super.init(limit: arr.count, arr: arr, iterator: iterator)
     }
-    
-    override func operate() {
-        super.operate()
-        
-        if arr.count == 0 {
-            return self.finish((), error: nil)
-        }
-        
-        var a = arr[0]
-        Async.dispatchBackground {[self]
-            self.iterator(a) { err in
-                if err {
-                    self.finish(nil, error: err)
-                } else {
-                    self.arr[0..1] = []
-                    self.operate()
-                }
-            }
-        }
+}
+
+class EachSeries<T>: EachLimit<T> {
+    init(arr: T[], iterator: Iterator) {
+        super.init(limit: 1, arr: arr, iterator: iterator)
     }
 }

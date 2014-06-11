@@ -6,6 +6,4 @@ var str = "Hello, playground"
 
 var items = [1, 2, 3, 4, 5]
 
-items[0..1] = []
-
-items
+items[0 .. items.count]

@@ -10,6 +10,10 @@ import Foundation
 
 class Async {
     
+    /********************************/
+    /********* DISPATCHING **********/
+    /********************************/
+    
     // dispatch block on queue
     class func dispatchQueue(queue: NSOperationQueue, block: () -> ()) -> NSOperation {
         var op = NSBlockOperation()
@@ -27,6 +31,10 @@ class Async {
     class func dispatchBackground(block: () -> ()) -> NSOperation {
         return self.dispatchQueue(NSOperationQueue.mainQueue(), block)
     }
+    
+    /********************************/
+    /********* COLLECTIONS **********/
+    /********************************/
     
     // https://github.com/caolan/async#each
     class func each<T>(items: T[], iterator: (T, (NSError?) -> ()) -> ()) -> Each<T> {
