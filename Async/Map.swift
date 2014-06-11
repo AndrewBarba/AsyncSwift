@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MapLimit<T>: CollectionFuture<T, (T, NSError?), (T[])> {
+class MapLimit<T, X>: CollectionFuture<T, (X, NSError?), X[]> {
     
     var limit: Int
     
@@ -21,23 +21,24 @@ class MapLimit<T>: CollectionFuture<T, (T, NSError?), (T[])> {
         super.operate()
         
         var index = min(limit, arr.count)
+        var _arr = arr[0..index]
+        var _res: X[] = Array()
         
-        if arr.count == 0 {
+        if _arr.count == 0 {
             return finish([], error: nil)
         }
         
-        let _arr = arr
-        var remaining = arr.count
-        
-        for (i, a) in enumerate(arr) {
+        var remaining = _arr.count
+        for (i, a) in enumerate(_arr) {
             Async.dispatchBackground {[self]
                 self.iterator(a) { o, err in
+                    remaining -= 1
                     if err {
                         self.finish(nil, error: err)
                     } else {
-                        _arr[i] = o
+                        _res += o
                         if remaining == 0 {
-                            self.finish(_arr, error: nil)
+                            self.finish(_res, error: nil)
                         }
                     }
                 }
@@ -46,13 +47,13 @@ class MapLimit<T>: CollectionFuture<T, (T, NSError?), (T[])> {
     }
 }
 
-class Map<T>: MapLimit<T> {
+class Map<T, X>: MapLimit<T, X> {
     init(arr: T[], iterator: Iterator) {
         super.init(limit: arr.count, arr: arr, iterator: iterator)
     }
 }
 
-class MapSeries<T>: MapLimit<T> {
+class MapSeries<T, X>: MapLimit<T, X> {
     init(arr: T[], iterator: Iterator) {
         super.init(limit: 1, arr: arr, iterator: iterator)
     }

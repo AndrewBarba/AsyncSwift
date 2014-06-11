@@ -8,7 +8,7 @@
 
 import Foundation
 
-class EachLimit<T>: CollectionFuture<T, (NSError?), ()> {
+class EachLimit<T>: CollectionFuture<T, (NSError?), Void> {
     
     var limit: Int
     

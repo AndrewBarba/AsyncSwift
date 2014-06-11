@@ -19,5 +19,6 @@ class CollectionFuture<T, IteratorType, SuccessType>: Future<SuccessType, NSErro
         self.arr = arr
         self.iterator = iterator
         super.init()
+        self.operate()
     }
 }

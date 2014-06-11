@@ -17,8 +17,37 @@ class Future<SuccessType, ErrorType> {
     var state = FutureState.Pending
     
     // results
-    var _result: SuccessType?
-    var _error: ErrorType?
+    // this is fucking dumb, workaround until swift fixes their shit
+    var __result: SuccessType?[] = []
+    var _result: SuccessType? {
+        get {
+            return __result.count > 0 ? __result[0] : nil
+        }
+        set(val) {
+            if __result.count > 0 {
+                __result[0] = val
+            } else {
+                __result += val
+            }
+        }
+    }
+    
+    
+    // errors
+    // this is fucking dumb, workaround until swift fixes their shit
+    var __error: ErrorType?[] = []
+    var _error: ErrorType? {
+        get {
+            return __error.count > 0 ? __error[0] : nil
+        }
+        set(val) {
+            if __error.count > 0 {
+                __error[0] = val
+            } else {
+                __error += val
+            }
+        }
+    }
     
     // callbacks
     var _onSuccess: (SuccessType -> ())[] = []

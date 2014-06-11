@@ -60,17 +60,17 @@ class Async {
      */
     
     // https://github.com/caolan/async#map
-    class func map<T>(items: T[], iterator: (T, (T, NSError?) -> ()) -> ()) -> Map<T> {
+    class func map<T>(items: T[], iterator: (T, (Any, NSError?) -> ()) -> ()) -> Map<T, Any> {
         return Map(arr: items, iterator: iterator)
     }
     
     // https://github.com/caolan/async#mapSeries
-    class func mapSeries<T>(items: T[], iterator: (T, (T, NSError?) -> ()) -> ()) -> MapSeries<T> {
+    class func mapSeries<T>(items: T[], iterator: (T, (Any, NSError?) -> ()) -> ()) -> MapSeries<T, Any> {
         return MapSeries(arr: items, iterator: iterator)
     }
     
     // https://github.com/caolan/async#mapSeries
-    class func mapLimit<T>(limit: Int, items: T[], iterator: (T, (T, NSError?) -> ()) -> ()) -> MapLimit<T> {
+    class func mapLimit<T>(limit: Int, items: T[], iterator: (T, (Any, NSError?) -> ()) -> ()) -> MapLimit<T, Any> {
         return MapLimit(limit: limit, arr: items, iterator: iterator)
     }
 }
