@@ -8,9 +8,12 @@
 
 import Foundation
 
-class Map<T>: CollectionFuture<T, (T, NSError?), (T[])> {
+class MapLimit<T>: CollectionFuture<T, (T, NSError?), (T[])> {
     
-    init(arr: T[], iterator: Iterator) {
+    var limit: Int
+    
+    init(limit: Int, arr: T[], iterator: Iterator) {
+        self.limit = limit
         super.init(arr: arr, iterator: iterator)
     }
     
@@ -41,17 +44,14 @@ class Map<T>: CollectionFuture<T, (T, NSError?), (T[])> {
     }
 }
 
-class MapSeries<T>: CollectionFuture<T, (T, NSError?), (T[])> {
-    
+class Map<T>: MapLimit<T> {
     init(arr: T[], iterator: Iterator) {
-        super.init(arr: arr, iterator: iterator)
+        super.init(limit: arr.count, arr: arr, iterator: iterator)
     }
-    
-    override func operate() {
-        super.operate()
-        
-        if arr.count == 0 {
-            return finish(_result, error: nil)
-        }
+}
+
+class MapSeries<T>: MapLimit<T> {
+    init(arr: T[], iterator: Iterator) {
+        super.init(limit: 1, arr: arr, iterator: iterator)
     }
 }

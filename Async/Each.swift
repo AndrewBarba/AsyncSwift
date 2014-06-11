@@ -18,6 +18,7 @@ class EachLimit<T>: CollectionFuture<T, (NSError?), ()> {
     }
     
     override func operate() {
+        super.operate()
         
         let index = min(limit, arr.count)
         var _arr = arr[0..index]

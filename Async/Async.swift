@@ -36,6 +36,10 @@ class Async {
     /********* COLLECTIONS **********/
     /********************************/
     
+    /**
+     * EACH
+     */
+    
     // https://github.com/caolan/async#each
     class func each<T>(items: T[], iterator: (T, (NSError?) -> ()) -> ()) -> Each<T> {
         return Each(arr: items, iterator: iterator)
@@ -46,6 +50,15 @@ class Async {
         return EachSeries(arr: items, iterator: iterator)
     }
     
+    // https://github.com/caolan/async#eachLimit
+    class func eachLimit<T>(limit: Int, items: T[], iterator: (T, (NSError?) -> ()) -> ()) -> EachLimit<T> {
+        return EachLimit(limit: limit, arr: items, iterator: iterator)
+    }
+    
+    /**
+     * MAP
+     */
+    
     // https://github.com/caolan/async#map
     class func map<T>(items: T[], iterator: (T, (T, NSError?) -> ()) -> ()) -> Map<T> {
         return Map(arr: items, iterator: iterator)
@@ -54,5 +67,10 @@ class Async {
     // https://github.com/caolan/async#mapSeries
     class func mapSeries<T>(items: T[], iterator: (T, (T, NSError?) -> ()) -> ()) -> MapSeries<T> {
         return MapSeries(arr: items, iterator: iterator)
+    }
+    
+    // https://github.com/caolan/async#mapSeries
+    class func mapLimit<T>(limit: Int, items: T[], iterator: (T, (T, NSError?) -> ()) -> ()) -> MapLimit<T> {
+        return MapLimit(limit: limit, arr: items, iterator: iterator)
     }
 }
