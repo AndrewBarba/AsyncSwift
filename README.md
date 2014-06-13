@@ -4,7 +4,7 @@ Async.swift
 https://github.com/caolan/async
 
 ```
-let names = [ "Andrew", "Zach", "Art" ]
+let names = [ "AndrewBarba", "ZachBachiri" ] // contributers
 ```
 
 ### Each
